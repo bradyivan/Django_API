@@ -1,0 +1,10 @@
+Pasos para activar el proyecto de Django.
+
+1.En el terminal de VSCode activar el environment:      .\env\Scripts\activate
+
+2.Usando XAMP activar el servidor APACHE y la conexion a la base de datos MYSQL.
+
+3.Entrar en la carpeta donde se encuentra el fichero manage.py:      cd .\Proyecto_API\
+4.Ejecutar el servidor,       python manage.py runserver
+
+

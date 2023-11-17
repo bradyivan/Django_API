@@ -1,0 +1,80 @@
+como crear API con Django
+
+crear carpeta de trabajo(django_mysqql_api)
+abrir carpeta de trabajo en VSCode
+abrir nueva terminal en VSCode(comprobar que el prompt corresponde con la carpeta de trabajo)
+crear entorno virtual en python (entorno virtual: crea un entorno individual para cada proyecto, aqui debemos instalar todoas las librerias correspondientes al proyecto): 
+	prompt> virtualenv -p python env   (doned, env->nombre del entorno virtual)		
+una vez creado el entorno virtual vamos a activarlo:
+	prompt> .\env\Scripts\activate
+a continuacion al PS (Python Shell) le precedera la palabra (env) indicando que se encuentra en un entorno virtual,
+	(env) prompt> 
+ahora procederemos a instalar todo lo necesario para llevar a cabo nuestro proyecto,
+	(env) prompt> pip install Django==3.2.4   (3.2.4->version de Django, ver pagina oficial de django) 
+si lanza una advertencia la resuelvo, 
+(si la advertencia es de actualizar pip ejecuto, prompt> python.exe -m pip install -upgrade pip)
+verifico la instalacion con, (env) prompt> pip list
+
+Creo el proyecto Django
+	(env) prompt> django-admin startproject Proyecto_API (Proyecto_API->nombre de la carpeta del proyecto)
+accedo a la carpeta del proyecto Proyecto_API,
+	(env) prompt> cd .\Proyecto_API (el promp recibe agraga la nueva direccion)
+listo los archivos en la carpeta
+	(env) prompt> ls
+vemos que hay un archivo manage.py
+inicio la aplicacion,
+	(env) prompt> django-admin startapp api (api nombre de la aplicacion)
+vamos a configurar nuestro proyecto,
+
+
+CONFIGURANDO EL FICHERO SETTINGS.PY
+abro el fichero settings.py y agrego mi aplicacion en el array INSTALLED_APPS=[..., 'api']
+ahora nos dirigimos al arreglo DATABASES y configuramos la base de datos:
+	DATABASES = {
+		'default':{
+			'ENGINE':'django.db.backends.mysql',
+			'HOST':'localhost',
+			'PORT':'3306', #(El que aparece en el xampp)
+			'USER':'root',
+			'PASSWORD':'123456',
+			'NAME':'django_api', #(Nombre de la BD que creeaste con el phpmyadmin)
+			'OPTIONS' :{
+				'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+			}
+		}
+	}
+puedo cambiar el codigo de lenguaje, 
+	LANGUAJE_CODE = 'es-pe' 
+con esto concluye mi uso del fichero settings.py, cierro el fichero
+--------------------------------------------------------------------------
+CREANDO UN MODELO DENTRO DE LA API
+
+abro el fichero models.py dentro de la carpeta api, aqui defino el nombre de los campos que va a tener mi BD y el tipo de cada campo con su correspondiente longitud,
+
+	class Company(models.Model):
+    		name = models.CharField(max_length=50)
+    		website = models.URLField(max_length=100)
+    		foundation = models.PositiveBigIntegerField() 
+
+abro el fichero admin.py dentro de la carpeta api, 
+
+	from .models import Company #importo la clase Company
+
+	admin.site.register(Company) #registro la clase Company
+ 
+CREAR MI BASE DE DATOS
+
+creo mi base de datos (BD) con phpmyadmin a traves de XAMPP(nombre de la BD: django_api)
+
+instalo el cliente de base de datos en python,
+	pip install mysqlclient pymysql (mysqlclient y pymysql clientes de BD)
+despues de la instalacion correcta 
+verifico la instalacion,
+	(env) prompt> pip list
+ahora ejecuto (que el promp incluya Proyecto_API),
+	(env) prompt> python manage.py migrate  (este comando crea toda las conexiones que precisa django para usar nuestra base de datos)
+podemos verificar su correcta instalacion por los mensaje terminados en OK y ademas tambien en phpmyadmin en mi base de datos aparecen nuevas tablas que son las usadas por django para mi proyecto, estas tablas agregan determinadas funcionalidades a mi proyecto como un panel deadministracion para manipular la informacion de mi tabla definida en el modelo. 
+ 
+
+-----------------------------------------------------------
+ 
